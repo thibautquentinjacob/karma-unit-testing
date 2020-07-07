@@ -1,4 +1,3 @@
-import { By } from '@angular/platform-browser';
 import { MockBuilder, MockRender, ngMocks } from 'ng-mocks';
 import { Point } from 'src/app/models/point/point.model';
 import { PointComponent } from './point.component';
@@ -19,10 +18,13 @@ describe('PointComponent', () => {
     const fixture = MockRender(PointComponent, {
       point: point,
     });
-    fixture.detectChanges();
 
-    const pointElement = fixture.debugElement.query(By.css('app-point'));
-    expect(pointElement.nativeElement.innerText).toEqual('(2 ; 2)');
+    const pointContainerElement = ngMocks.find(
+      fixture.debugElement,
+      '[data-automation-id=point-container]'
+    );
+    // Official way: const pointElement = fixture.debugElement.query(By.css('app-point'));
+    expect(pointContainerElement.nativeElement.innerText).toEqual('(2 ; 2)');
   });
 
   it('should display updated coordinates', () => {
@@ -39,18 +41,23 @@ describe('PointComponent', () => {
     fixture.componentInstance.point = updatedPoint;
     fixture.detectChanges();
 
-    const pointElement = fixture.debugElement.query(By.css('app-point'));
-    expect(pointElement.nativeElement.innerText).toEqual('(3 ; 4)');
+    const pointContainerElement = ngMocks.find(
+      fixture.debugElement,
+      '[data-automation-id=point-container]'
+    );
+    expect(pointContainerElement.nativeElement.innerText).toEqual('(3 ; 4)');
   });
 
   it('should not display coordinates', () => {
     const fixture = MockRender(PointComponent, {
       point: null,
     });
-    fixture.detectChanges();
 
-    const pointElement = ngMocks.find(fixture.debugElement, 'app-point');
-    expect(pointElement.nativeElement.innerText).toEqual('');
+    const pointContainerElement = ngMocks.find(
+      fixture.debugElement,
+      'app-point'
+    );
+    expect(pointContainerElement.nativeElement.innerText).toEqual('');
   });
 
   it('should call coordinatesClickHandler on click and emit updated coordinates', () => {

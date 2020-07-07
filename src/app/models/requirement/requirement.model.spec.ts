@@ -39,7 +39,7 @@ describe('Requirement', () => {
   });
 });
 
-fdescribe('setVolume', () => {
+describe('setVolume', () => {
   it('should set volume - number', () => {
     const requirement: Requirement = new Requirement({ volume: 0 });
     expect(requirement['_volume']).toEqual(0);
